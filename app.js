@@ -1,4 +1,3 @@
-// 部署 Apps Script 後，將網址貼到此處。未設定時可預覽版面與驗證流程。
 const API_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
 const form = document.querySelector('#bookingForm');
 const status = document.querySelector('#formStatus');
@@ -21,6 +20,7 @@ form.addEventListener('submit', async (event) => {
   if (!form.reportValidity()) return;
   const data = Object.fromEntries(new FormData(form));
   const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
+  data.orderAmount = Number(data.orderAmount);
   data.ticketCount = economy + business + first;
   data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張`;
   data.starluxUpgrade = `${data.starluxUpgrade} 張`;
@@ -50,7 +50,7 @@ function toPMROrder(data) {
     id: `PMR-${dateCode}-${suffix}`, assignedTo: 'J168', customerName: data.contactName,
     title: data.project.split('\n')[0].slice(0, 100), projectOriginal: data.project,
     purchased: Number(data.ticketCount), cabin: data.cabinClass, starlux: data.starluxUpgrade,
-    reportedPayment: null, paymentAmount: null, paymentStatus: '待核帳', used: null,
+    reportedPayment: null, paymentAmount: data.orderAmount, paymentStatus: '待核帳', used: null,
     createdAt: now.toISOString(), lineDisplayName: data.lineName, introducer: data.referrer,
     internalNotes: `${data.remarks || ''}${data.otherReferrer ? `\n其他介紹人：${data.otherReferrer}` : ''}`.trim(),
     phone: data.phone || ''
