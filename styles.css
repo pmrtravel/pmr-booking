@@ -101,8 +101,8 @@ textarea{resize:vertical;line-height:1.7}
 
 /* 介紹人 */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips label{display:block;cursor:pointer}
-.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{position:relative;display:block;cursor:pointer}
+.chips input{position:absolute;inset:0;width:1px;height:1px;margin:0;padding:0;border:0;opacity:0;pointer-events:none}
 .chips span{display:block;border:1px solid rgba(214,182,128,.24);border-radius:999px;padding:8px 18px;background:var(--field);font-size:13px;font-weight:500;color:var(--text-soft);transition:.2s}
 .chips label:hover span{border-color:var(--gold)}
 .chips input:checked+span{border-color:var(--gold);background:var(--gold);color:#1a1409;font-weight:700}
