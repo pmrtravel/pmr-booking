@@ -80,7 +80,7 @@ function showPaymentInfo(data, notificationSent) {
   const referrer = data.referrer === '其他' ? (data.otherReferrer || '其他介紹人') : data.referrer;
   form.hidden = true;
   paymentResult.hidden = false;
-  const notifyNote = notificationSent ? '已同步通知客服群組。' : '訂單已記錄，客服群組通知將由系統補送。';
+  const notifyNote = notificationSent ? '已同步通知客服群組。' : '訂單已記錄，客服將盡快與您聯繫。';
   paymentResult.innerHTML = `<div class="payment-icon">✓</div><h3>訂單已送出</h3><p>${data.contactName}，請依下方資訊完成匯款。<br>本次訂單介紹人：${referrer}</p><div class="bank-card"><p class="label">PAYMENT INFORMATION</p><h4>匯款資訊</h4><div class="bank-row"><span>銀行代碼／分行</span><strong>${details.bank}</strong></div><div class="bank-row"><span>匯款帳號</span><strong>${details.account}</strong></div></div><div class="payment-note">${notifyNote}<br>轉帳完成後，請提供「帳號後五碼」或「明細截圖」，我們會盡快為您確認。<br><b>待客服確認款項後，即完成訂單。</b></div><button class="restart" type="button">填寫另一筆預約</button>`;
   paymentResult.querySelector('.restart').addEventListener('click', () => { form.reset(); form.hidden = false; paymentResult.hidden = true; });
 }
