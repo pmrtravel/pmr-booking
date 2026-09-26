@@ -62,6 +62,7 @@ function toPMROrder(data) {
 
 async function notifyLineGroup(data) {
   const notification = { action: 'webBooking', order: {
+    contactName: data.contactName, lineId: data.lineId || '',
     project: data.project, ticketCount: data.ticketCount, cabinClass: data.cabinClass,
     starluxUpgrade: data.starluxUpgrade, orderAmount: data.orderAmount, lineName: data.lineName,
     referrer: data.referrer === '其他' ? (data.otherReferrer || '其他') : data.referrer,
