@@ -27,6 +27,27 @@
     .item p{margin:0;font-size:12px;color:var(--muted);grid-column:1}
     .item .count{grid-row:1/3;grid-column:2;text-align:right;font-size:22px;font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums}
     .item .count small{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+    button.item{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
+    button.item:hover,button.item:focus-visible{border-color:var(--teal);box-shadow:0 6px 18px rgba(21,107,104,.12);outline:none}
+    button.item:active{transform:scale(.99)}
+    .item .more{grid-column:1/-1;font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.5px}
+    dialog#detailDialog{width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 48px);padding:0;border:0;border-radius:10px;background:var(--cream);color:var(--ink);box-shadow:0 24px 60px rgba(10,40,40,.35);overflow:hidden}
+    dialog#detailDialog::backdrop{background:rgba(12,34,36,.55)}
+    .d-body{max-height:calc(100vh - 48px);overflow-y:auto;padding:28px 24px 24px}
+    .d-close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:var(--ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+    .d-eyebrow{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--gold)}
+    .d-body h3{margin:0 40px 16px 0;font-size:20px;line-height:1.5}
+    .d-sec{background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 14px;margin-bottom:10px}
+    .d-row{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed #e6ecec;font-size:13px}
+    .d-row:last-child{border-bottom:0}
+    .d-row span{color:var(--muted);white-space:nowrap}
+    .d-row b{font-weight:600;text-align:right;word-break:break-word}
+    .d-pax{margin:6px 0;padding:6px 0 0;border-top:1px solid var(--line)}
+    .d-pax h5{margin:4px 0 0;font-size:13px;color:var(--teal)}
+    .d-note{padding:12px 14px}
+    .d-note span{font-size:13px;color:var(--muted)}
+    .d-note p{margin:6px 0 0;font-size:13px;line-height:1.8;white-space:pre-wrap}
+    .d-hint{margin:6px 0 0;font-size:11px;color:var(--muted)}
     .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:1px}
     .badge.ok{background:#e1f0ea;color:#1f6b4f}
     .badge.wait{background:#fbeedd;color:#9a5a17}
@@ -56,6 +77,10 @@
       <section id="result" hidden aria-live="polite"></section>
     </section>
   </main>
+  <dialog id="detailDialog" aria-label="詳細資訊">
+    <button type="button" class="d-close" aria-label="關閉">×</button>
+    <div class="d-body"></div>
+  </dialog>
   <script src="./my-orders.js"></script>
 </body>
 </html>
