@@ -3,58 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c1312" />
   <title>我的訂單｜PMR 旅遊規劃</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
-  <style>
-    .lookup-row{display:flex;gap:10px;align-items:stretch}
-    .lookup-row input{flex:1;font-size:17px;letter-spacing:1px}
-    .lookup-row .submit{width:auto;margin-top:0;padding:0 24px;gap:10px;white-space:nowrap}
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0 8px}
-    .stat{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px 16px}
-    .stat span{display:block;font-size:12px;color:var(--muted);letter-spacing:.5px}
-    .stat strong{display:block;margin-top:6px;font-size:32px;font-family:'Playfair Display','Noto Sans TC',serif;color:var(--ink);font-variant-numeric:tabular-nums}
-    .stat strong small{font-size:14px;font-family:'Noto Sans TC';color:var(--muted);margin-left:3px}
-    .stat.accent{background:var(--teal);border-color:var(--teal)}
-    .stat.accent span,.stat.accent strong,.stat.accent strong small{color:#fff}
-    .stat-note{font-size:12px;color:var(--muted);line-height:1.7;margin:0 0 30px}
-    .section-title{font-size:16px;font-weight:700;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
-    .section-title em{font-style:normal;font-size:12px;font-weight:500;color:var(--muted)}
-    .item{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center}
-    .item h4{margin:0;font-size:14px;line-height:1.6;font-weight:600}
-    .item p{margin:0;font-size:12px;color:var(--muted);grid-column:1}
-    .item .count{grid-row:1/3;grid-column:2;text-align:right;font-size:22px;font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums}
-    .item .count small{display:block;font-size:11px;font-weight:500;color:var(--muted)}
-    button.item{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
-    button.item:hover,button.item:focus-visible{border-color:var(--teal);box-shadow:0 6px 18px rgba(21,107,104,.12);outline:none}
-    button.item:active{transform:scale(.99)}
-    .item .more{grid-column:1/-1;font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.5px}
-    dialog#detailDialog{width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 48px);padding:0;border:0;border-radius:10px;background:var(--cream);color:var(--ink);box-shadow:0 24px 60px rgba(10,40,40,.35);overflow:hidden}
-    dialog#detailDialog::backdrop{background:rgba(12,34,36,.55)}
-    .d-body{max-height:calc(100vh - 48px);overflow-y:auto;padding:28px 24px 24px}
-    .d-close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:var(--ink);font-size:22px;line-height:1;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-    .d-eyebrow{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--gold)}
-    .d-body h3{margin:0 40px 16px 0;font-size:20px;line-height:1.5}
-    .d-sec{background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 14px;margin-bottom:10px}
-    .d-row{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed #e6ecec;font-size:13px}
-    .d-row:last-child{border-bottom:0}
-    .d-row span{color:var(--muted);white-space:nowrap}
-    .d-row b{font-weight:600;text-align:right;word-break:break-word}
-    .d-pax{margin:6px 0;padding:6px 0 0;border-top:1px solid var(--line)}
-    .d-pax h5{margin:4px 0 0;font-size:13px;color:var(--teal)}
-    .d-note{padding:12px 14px}
-    .d-note span{font-size:13px;color:var(--muted)}
-    .d-note p{margin:6px 0 0;font-size:13px;line-height:1.8;white-space:pre-wrap}
-    .d-hint{margin:6px 0 0;font-size:11px;color:var(--muted)}
-    .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:1px}
-    .badge.ok{background:#e1f0ea;color:#1f6b4f}
-    .badge.wait{background:#fbeedd;color:#9a5a17}
-    .empty{background:#fff;border:1px dashed #ccd7d5;border-radius:6px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
-    .back{display:inline-block;margin-top:28px;color:#f0c88e;font-size:13px;text-decoration:none;border-bottom:1px solid rgba(240,200,142,.5)}
-    @media (max-width:720px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{padding:14px 10px}.stat strong{font-size:26px}.lookup-row{flex-direction:column}.lookup-row .submit{padding:14px 20px;justify-content:center}}
-  </style>
 </head>
 <body>
   <main class="shell">
@@ -63,13 +17,13 @@
       <p class="eyebrow">MY ORDERS · LOOKUP</p>
       <h1>查詢<em>我的訂單。</em></h1>
       <p class="intro">輸入訂購時留下的手機號碼，即可查看已預訂張數、已開票與尚未開票的張數。</p>
-      <a class="back" href="./">← 回到預約表單</a>
-      <div class="hero-foot"><span>✦ 即時查詢</span><span>✦ 專人服務</span><span>✦ 資料保護</span></div>
+      <a class="hero-link" href="./"><span aria-hidden="true">←</span> 回到預約表單</a>
+      <div class="hero-foot"><div><span>✦</span> 即時查詢</div><div><span>✦</span> 專人服務</div><div><span>✦</span> 資料保護</div></div>
     </section>
 
     <section class="form-panel">
       <div class="panel-heading"><p>ORDER LOOKUP</p><h2>我的訂單</h2><span>請輸入訂購人手機號碼</span></div>
-      <form id="lookupForm" novalidate>
+      <form id="lookupForm" class="lookup-card" novalidate>
         <label>訂購人手機號碼<input name="phone" id="phone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="09xx-xxx-xxx" /></label>
         <button class="submit" type="submit"><span>查詢我的訂單</span><span>→</span></button>
         <p class="form-status" id="lookupStatus" aria-live="polite"></p>
