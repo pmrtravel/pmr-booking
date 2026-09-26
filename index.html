@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMR 旅遊規劃預約</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="brand"><span class="brand-mark">PMR</span><span>TRAVEL STUDIO</span></div>
+      <p class="eyebrow">TRIP PLANNING · RESERVATION</p>
+      <h1>開始規劃，<em>下一段旅程。</em></h1>
+      <p class="intro">填妥需求後即可取得專屬匯款資訊；待客服確認款項後，即完成訂單。</p>
+      <div class="hero-foot"><span>✦ 安心預約</span><span>✦ 專人服務</span><span>✦ 資料保護</span></div>
+    </section>
+
+    <section class="form-panel">
+      <div class="panel-heading"><p>RESERVATION FORM</p><h2>旅遊規劃預約單</h2><span>欄位標示 <b>*</b> 為必填</span></div>
+      <form id="bookingForm">
+        <fieldset>
+          <legend><span>01</span> 預約內容</legend>
+          <label class="full">預定專案 <i>*</i><textarea name="project" required rows="4" placeholder="請將專案文字整段貼上"></textarea></label>
+          <div class="ticket-matrix-wrap">
+            <p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p>
+            <div class="ticket-matrix" id="ticketMatrix"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span>02</span> 訂購人資訊</legend>
+          <div class="grid two">
+            <label>訂購人姓名 <i>*</i><input name="contactName" required placeholder="請輸入姓名" /></label>
+            <label>手機號碼 <i>*</i><input name="phone" required inputmode="tel" pattern="[0-9+ -]{8,}" placeholder="09xx-xxx-xxx" /></label>
+            <label>LINE 名稱 <i>*</i><input name="lineName" required placeholder="方便聯繫的名稱" /></label>
+            <label>LINE ID<input name="lineId" placeholder="選填" /></label>
+          </div>
+          <label>介紹人 <i>*</i><div class="chips" id="referrers"></div><input class="other-input" id="otherReferrer" name="otherReferrer" placeholder="若選擇其他，請填寫介紹人" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend><span>03</span> 其他備註</legend>
+          <label>備註<textarea name="remarks" rows="4" placeholder="入住飯店、天數、房型，或其他想告訴我們的需求"></textarea></label>
+        </fieldset>
+        <p class="privacy">送出即表示您同意 PMR 為處理本次旅遊規劃而使用以上資料。</p>
+        <button class="submit" type="submit"><span>送出預約需求</span><span>→</span></button>
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+      </form>
+      <section class="payment-result" id="paymentResult" hidden aria-live="polite"></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/gh/yoyoyo12371-hub/PMRTEST@main/shared-data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
