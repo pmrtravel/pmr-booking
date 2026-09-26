@@ -13,8 +13,15 @@ const normPhone = s => {
 
 lookupForm.addEventListener('submit', async event => {
   event.preventDefault();
-  const phone = normPhone(lookupForm.phone.value);
-  if (!/^09\d{8}$/.test(phone)) {
+  const rawPhone = lookupForm.phone.value.trim();
+  const phone = rawPhone ? normPhone(rawPhone) : '';
+  const lineName = lookupForm.lineName.value.trim();
+  if (!phone && !lineName) {
+    lookupStatus.textContent = '請輸入手機號碼或 LINE 名稱。';
+    lookupStatus.className = 'form-status error';
+    return;
+  }
+  if (phone && !/^09\d{8}$/.test(phone)) {
     lookupStatus.textContent = '請輸入正確的手機號碼（09 開頭共 10 碼）。';
     lookupStatus.className = 'form-status error';
     return;
@@ -25,7 +32,7 @@ lookupForm.addEventListener('submit', async event => {
   lookupStatus.className = 'form-status';
   result.hidden = true;
   try {
-    const data = await fetchLookup(phone).catch(() => fetchLookup(phone));
+    const data = await fetchLookup(phone, lineName).catch(() => fetchLookup(phone, lineName));
     if (!data.ok) throw new Error(data.error || '查詢失敗');
     lookupStatus.textContent = '';
     render(data);
@@ -37,8 +44,9 @@ lookupForm.addEventListener('submit', async event => {
   }
 });
 
-async function fetchLookup(phone) {
-  const url = `${LOOKUP_API_URL}?action=myOrders&phone=${encodeURIComponent(phone)}&_=${Date.now()}`;
+async function fetchLookup(phone, lineName) {
+  const params = new URLSearchParams({ action: 'myOrders', phone, lineName, _: Date.now() });
+  const url = `${LOOKUP_API_URL}?${params}`;
   const response = await fetch(url, { credentials: 'omit' });
   return response.json();
 }
@@ -46,7 +54,7 @@ async function fetchLookup(phone) {
 function render(data) {
   result.hidden = false;
   if (!data.found) {
-    result.innerHTML = '<div class="empty">查無此手機號碼的訂單或開票紀錄。<br>若您是透過舊表單訂購、當時未留手機號碼，請聯繫客服協助查詢。</div>';
+    result.innerHTML = '<div class="empty">查無相符的訂單或開票紀錄。<br>請確認手機號碼或 LINE 名稱與訂購時填寫的相同，或聯繫客服協助查詢。</div>';
     return;
   }
   const s = data.summary;

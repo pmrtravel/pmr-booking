@@ -41,20 +41,20 @@
       <div class="brand"><span class="brand-mark">PMR</span><span>TRAVEL STUDIO</span></div>
       <p class="eyebrow">MY ORDERS · LOOKUP</p>
       <h1>查詢<em>我的訂單。</em></h1>
-      <p class="intro">輸入訂購時留下的手機號碼，即可查看已預訂張數、已開票與尚未開票的張數。</p>
+      <p class="intro">輸入訂購時留下的手機號碼或 LINE 名稱，即可查看已預訂張數、已開票與尚未開票的張數。</p>
       <a class="back" href="./">← 回到預約表單</a>
       <div class="hero-foot"><span>✦ 即時查詢</span><span>✦ 專人服務</span><span>✦ 資料保護</span></div>
     </section>
 
     <section class="form-panel">
-      <div class="panel-heading"><p>ORDER LOOKUP</p><h2>我的訂單</h2><span>請輸入訂購人手機號碼</span></div>
+      <div class="panel-heading"><p>ORDER LOOKUP</p><h2>我的訂單</h2><span>請輸入訂購人手機號碼或 LINE 名稱</span></div>
       <form id="lookupForm" novalidate>
-        <label>訂購人手機號碼
-          <div class="lookup-row">
-            <input name="phone" id="phone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="09xx-xxx-xxx" required />
-            <button class="submit" type="submit"><span>查詢</span><span>→</span></button>
-          </div>
-        </label>
+        <div class="grid two">
+          <label>訂購人手機號碼<input name="phone" id="phone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="09xx-xxx-xxx" /></label>
+          <label>或 LINE 名稱<input name="lineName" id="lineName" maxlength="60" placeholder="訂購時填寫的 LINE 顯示名稱" /></label>
+        </div>
+        <p class="stat-note" style="margin:10px 0 0">擇一填寫即可；兩個都填，查詢會更完整。</p>
+        <button class="submit" type="submit"><span>查詢我的訂單</span><span>→</span></button>
         <p class="form-status" id="lookupStatus" aria-live="polite"></p>
       </form>
       <section id="result" hidden aria-live="polite"></section>
