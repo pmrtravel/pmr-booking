@@ -31,8 +31,10 @@ form.addEventListener('submit', async (event) => {
   if (!hasPMRStore() && API_URL.includes('PASTE_YOUR')) { status.textContent = '訂單同步服務尚未載入，請重新整理後再試。'; status.className = 'form-status error'; return; }
   submit.disabled = true; status.textContent = '正在送出您的預約…'; status.className = 'form-status';
   try {
+    const pmrOrder = toPMROrder(data);
+    data.orderId = pmrOrder.id;
     if (hasPMRStore()) {
-      const saved = await window.PMRStore.pushOrderToSheet(toPMROrder(data));
+      const saved = await window.PMRStore.pushOrderToSheet(pmrOrder);
       if (!saved) throw new Error('PMR 訂單資料庫暫時無法寫入');
     } else {
       const response = await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data) });
@@ -62,6 +64,7 @@ function toPMROrder(data) {
 
 async function notifyLineGroup(data) {
   const notification = { action: 'webBooking', order: {
+    orderId: data.orderId || '', phone: data.phone || '',
     contactName: data.contactName, lineId: data.lineId || '',
     project: data.project, ticketCount: data.ticketCount, cabinClass: data.cabinClass,
     starluxUpgrade: data.starluxUpgrade, orderAmount: data.orderAmount, lineName: data.lineName,

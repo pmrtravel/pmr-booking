@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的訂單｜PMR 旅遊規劃</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .lookup-row{display:flex;gap:10px;align-items:stretch}
+    .lookup-row input{flex:1;font-size:17px;letter-spacing:1px}
+    .lookup-row .submit{width:auto;margin-top:0;padding:0 24px;gap:10px;white-space:nowrap}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0 8px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px 16px}
+    .stat span{display:block;font-size:12px;color:var(--muted);letter-spacing:.5px}
+    .stat strong{display:block;margin-top:6px;font-size:32px;font-family:'Playfair Display','Noto Sans TC',serif;color:var(--ink);font-variant-numeric:tabular-nums}
+    .stat strong small{font-size:14px;font-family:'Noto Sans TC';color:var(--muted);margin-left:3px}
+    .stat.accent{background:var(--teal);border-color:var(--teal)}
+    .stat.accent span,.stat.accent strong,.stat.accent strong small{color:#fff}
+    .stat-note{font-size:12px;color:var(--muted);line-height:1.7;margin:0 0 30px}
+    .section-title{font-size:16px;font-weight:700;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+    .section-title em{font-style:normal;font-size:12px;font-weight:500;color:var(--muted)}
+    .item{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center}
+    .item h4{margin:0;font-size:14px;line-height:1.6;font-weight:600}
+    .item p{margin:0;font-size:12px;color:var(--muted);grid-column:1}
+    .item .count{grid-row:1/3;grid-column:2;text-align:right;font-size:22px;font-weight:700;color:var(--teal);font-variant-numeric:tabular-nums}
+    .item .count small{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+    .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:1px}
+    .badge.ok{background:#e1f0ea;color:#1f6b4f}
+    .badge.wait{background:#fbeedd;color:#9a5a17}
+    .empty{background:#fff;border:1px dashed #ccd7d5;border-radius:6px;padding:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
+    .back{display:inline-block;margin-top:28px;color:#f0c88e;font-size:13px;text-decoration:none;border-bottom:1px solid rgba(240,200,142,.5)}
+    @media (max-width:720px){.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat{padding:14px 10px}.stat strong{font-size:26px}.lookup-row{flex-direction:column}.lookup-row .submit{padding:14px 20px;justify-content:center}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="brand"><span class="brand-mark">PMR</span><span>TRAVEL STUDIO</span></div>
+      <p class="eyebrow">MY ORDERS · LOOKUP</p>
+      <h1>查詢<em>我的訂單。</em></h1>
+      <p class="intro">輸入訂購時留下的手機號碼，即可查看已預訂張數、已開票與尚未開票的張數。</p>
+      <a class="back" href="./">← 回到預約表單</a>
+      <div class="hero-foot"><span>✦ 即時查詢</span><span>✦ 專人服務</span><span>✦ 資料保護</span></div>
+    </section>
+
+    <section class="form-panel">
+      <div class="panel-heading"><p>ORDER LOOKUP</p><h2>我的訂單</h2><span>請輸入訂購人手機號碼</span></div>
+      <form id="lookupForm" novalidate>
+        <label>訂購人手機號碼
+          <div class="lookup-row">
+            <input name="phone" id="phone" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="09xx-xxx-xxx" required />
+            <button class="submit" type="submit"><span>查詢</span><span>→</span></button>
+          </div>
+        </label>
+        <p class="form-status" id="lookupStatus" aria-live="polite"></p>
+      </form>
+      <section id="result" hidden aria-live="polite"></section>
+    </section>
+  </main>
+  <script src="./my-orders.js"></script>
+</body>
+</html>
