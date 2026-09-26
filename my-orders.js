@@ -25,12 +25,7 @@ lookupForm.addEventListener('submit', async event => {
   lookupStatus.className = 'form-status';
   result.hidden = true;
   try {
-    const response = await fetch(LOOKUP_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'myOrders', phone })
-    });
-    const data = await response.json();
+    const data = await fetchLookup(phone).catch(() => fetchLookup(phone));
     if (!data.ok) throw new Error(data.error || '查詢失敗');
     lookupStatus.textContent = '';
     render(data);
@@ -41,6 +36,12 @@ lookupForm.addEventListener('submit', async event => {
     button.disabled = false;
   }
 });
+
+async function fetchLookup(phone) {
+  const url = `${LOOKUP_API_URL}?action=myOrders&phone=${encodeURIComponent(phone)}&_=${Date.now()}`;
+  const response = await fetch(url, { credentials: 'omit' });
+  return response.json();
+}
 
 function render(data) {
   result.hidden = false;
