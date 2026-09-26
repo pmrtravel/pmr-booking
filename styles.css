@@ -30,25 +30,24 @@ body{margin:0;background:radial-gradient(1200px 600px at 100% 0,rgba(210,174,116
 ::selection{background:rgba(210,174,116,.35);color:#fff}
 
 /* ── 版面 ── */
-.shell{display:grid;grid-template-columns:minmax(340px,.8fr) minmax(0,1.2fr);min-height:100vh}
-.hero{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:52px clamp(36px,5vw,84px);color:#fff;overflow:hidden;
+.shell{display:block;min-height:100vh;--gutter:max(20px,calc((100% - 760px) / 2))}
+.hero{position:relative;display:flex;flex-direction:column;min-height:clamp(420px,56vh,560px);padding:48px var(--gutter) 52px;color:#fff;overflow:hidden;
   background:linear-gradient(180deg,rgba(8,14,13,.35) 0%,rgba(8,14,13,.55) 45%,rgba(8,14,13,.94) 100%),linear-gradient(120deg,rgba(12,26,24,.85),rgba(12,26,24,.2)),url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80') center/cover}
 .hero:before{content:'';position:absolute;inset:22px;border:1px solid rgba(236,208,156,.22);pointer-events:none}
 .hero>*{position:relative}
 .brand{display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:3.2px;color:var(--text-soft)}
 .brand-mark{font-family:var(--display);font-size:24px;letter-spacing:1px;border:1px solid var(--gold);padding:4px 9px;color:var(--gold-hi)}
-.eyebrow{margin:auto 0 16px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:3.2px}
-.hero h1{max-width:460px;margin:0;font-family:var(--serif);font-size:clamp(40px,4.6vw,66px);font-weight:600;line-height:1.22;letter-spacing:2px}
+.eyebrow{margin:auto 0 16px;padding-top:70px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:3.2px}
+.hero h1{max-width:640px;margin:0;font-family:var(--serif);font-size:clamp(34px,5.4vw,58px);font-weight:600;line-height:1.22;letter-spacing:2px}
 .hero em{font-style:normal;background:linear-gradient(100deg,var(--gold-hi),var(--gold) 60%,var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
-.intro{max-width:380px;margin:26px 0 0;line-height:1.95;color:var(--text-soft);font-size:15px}
+.intro{max-width:520px;margin:26px 0 0;line-height:1.95;color:var(--text-soft);font-size:15px}
 .hero-link{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;margin-top:30px;padding:11px 20px;border:1px solid var(--line-strong);border-radius:999px;color:var(--gold-hi);font-size:13px;letter-spacing:1px;text-decoration:none;background:rgba(12,19,18,.45);backdrop-filter:blur(6px);transition:.25s}
 .hero-link:hover{border-color:var(--gold);background:rgba(210,174,116,.12)}
-.hero-foot{display:flex;gap:22px;flex-wrap:wrap;margin-top:44px;font-size:11px;letter-spacing:1.6px;color:var(--text-soft)}
+.hero-foot{display:flex;gap:22px;flex-wrap:wrap;margin-top:36px;font-size:11px;letter-spacing:1.6px;color:var(--text-soft)}
 .hero-foot span{color:var(--gold)}
 
-.form-panel{position:relative;padding:72px clamp(24px,6vw,96px) 90px;background:linear-gradient(180deg,var(--bg-2),var(--bg))}
+.form-panel{position:relative;padding:56px var(--gutter) 90px;background:linear-gradient(180deg,var(--bg-2),var(--bg))}
 .form-panel:before{content:'PMR MEMBER EXCLUSIVE';display:block;margin-bottom:14px;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:3px}
-.form-panel>*{max-width:760px}
 .panel-heading{position:relative;border-bottom:1px solid var(--line);padding-bottom:30px;margin-bottom:40px}
 .panel-heading:after{content:'';position:absolute;bottom:-1px;left:0;width:72px;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
 .panel-heading p{margin:0 0 8px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:3px}
@@ -183,19 +182,12 @@ dialog#detailDialog::backdrop{background:rgba(3,7,6,.72);backdrop-filter:blur(3p
 .d-hint{margin:8px 0 0;font-size:11px;color:var(--muted)}
 
 /* ── 響應式 ── */
-@media(max-width:900px){
-  .shell{display:block}
-  .hero{position:relative;height:auto;min-height:0;padding:40px 28px 44px}
-  .eyebrow{margin-top:84px}
-  .hero h1{font-size:40px}
-  .hero-foot{margin-top:34px}
-  .form-panel{padding:44px 20px 64px}
-}
 @media(max-width:560px){
   .hero:before{inset:12px}
-  .hero{padding:34px 24px 38px}
-  .eyebrow{margin-top:64px}
-  .hero h1{font-size:34px;letter-spacing:1px}
+  .hero{min-height:380px;padding:34px 22px 38px}
+  .eyebrow{padding-top:56px}
+  .hero h1{letter-spacing:1px}
+  .form-panel{padding:40px 16px 64px}
   .intro{font-size:14px}
   .grid.two,.ticket-selector-grid{grid-template-columns:1fr}
   .panel-heading h2{font-size:28px}
