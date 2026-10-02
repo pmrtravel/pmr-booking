@@ -7,9 +7,8 @@ const paymentResult = document.querySelector('#paymentResult');
 const hasPMRStore = () => Boolean(window.PMRStore && typeof window.PMRStore.pushOrderToSheet === 'function');
 const paymentAccounts = {
   '阮糖': { bank: '808 玉山銀行', account: '0598979149738' },
-  '楊翰': { bank: '013 國泰世華銀行 新興分行', account: '052501068462' },
-  '史考特': { bank: '822 中國信託銀行 北桃園分行', account: '864540369489' },
-  'default': { bank: '808 玉山銀行 板新分行', account: '0484979104255' }
+  '軟糖': { bank: '808 玉山銀行', account: '0598979149738' },
+  'default': { bank: '807 永豐銀行 營業部分行', account: '20201800325399' }
 };
 
 const ticketRows = [['economyCount', '經濟艙'], ['businessCount', '商務艙'], ['firstCount', '頭等艙'], ['starluxUpgrade', '其中幾張加購星宇']];
