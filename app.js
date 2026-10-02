@@ -7,7 +7,6 @@ const paymentResult = document.querySelector('#paymentResult');
 const hasPMRStore = () => Boolean(window.PMRStore && typeof window.PMRStore.pushOrderToSheet === 'function');
 const paymentAccounts = {
   '阮糖': { bank: '808 玉山銀行', account: '0598979149738' },
-  '軟糖': { bank: '808 玉山銀行', account: '0598979149738' },
   'default': { bank: '807 永豐銀行 營業部分行', account: '20201800325399' }
 };
 
