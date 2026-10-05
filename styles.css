@@ -201,3 +201,24 @@ dialog#detailDialog::backdrop{background:rgba(3,7,6,.72);backdrop-filter:blur(3p
   .d-body{padding:26px 18px 20px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ── 常見問題 ── */
+.faq-panel{padding:48px var(--gutter) 72px;border-top:1px solid var(--line)}
+.faq-search input{width:100%;margin:6px 0 22px;padding:13px 16px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--field);color:var(--text);font:inherit;font-size:15px}
+.faq-search input:focus{outline:none;border-color:var(--gold)}
+.faq-group{margin-bottom:26px}
+.faq-group h3{display:flex;align-items:center;gap:12px;margin:0 0 10px;font-family:var(--serif);font-size:18px;color:var(--gold-hi)}
+.faq-group h3 span{font-family:var(--display);font-size:13px;letter-spacing:1px;color:var(--gold);border:1px solid var(--line-strong);padding:1px 8px}
+.faq-item{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-bottom:8px}
+.faq-item[open]{border-color:var(--line-strong);background:var(--surface-2)}
+.faq-item summary{cursor:pointer;list-style:none;padding:14px 44px 14px 16px;position:relative;font-weight:600;font-size:15px;line-height:1.6}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:after{content:'+';position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:20px}
+.faq-item[open] summary:after{content:'–'}
+.faq-item>p,.faq-body{margin:0;padding:0 16px 16px;color:var(--text-soft);font-size:14px;line-height:1.9}
+.faq-body p{margin:0 0 10px}
+.faq-table{width:100%;border-collapse:collapse;font-size:14px}
+.faq-table td{padding:8px 4px;border-top:1px solid var(--line)}
+.faq-table td:last-child{text-align:right;color:var(--gold-hi)}
+.faq-empty{color:var(--muted);text-align:center;padding:24px 0}
+.hero-link+.hero-link{margin-top:12px}
