@@ -84,26 +84,3 @@ function showPaymentInfo(data, notificationSent) {
   paymentResult.innerHTML = `<div class="payment-icon">✓</div><h3>訂單已送出</h3><p>${data.contactName}，請依下方資訊完成匯款。<br>本次訂單介紹人：${referrer}</p><div class="bank-card"><p class="label">PAYMENT INFORMATION</p><h4>匯款資訊</h4><div class="bank-row"><span>銀行代碼／分行</span><strong>${details.bank}</strong></div><div class="bank-row"><span>匯款帳號</span><strong>${details.account}</strong></div></div><div class="payment-note">${notifyNote}<br>轉帳完成後，請提供「帳號後五碼」或「明細截圖」，我們會盡快為您確認。<br><b>待客服確認款項後，即完成訂單。</b></div><button class="restart" type="button">填寫另一筆預約</button>`;
   paymentResult.querySelector('.restart').addEventListener('click', () => { form.reset(); form.hidden = false; paymentResult.hidden = true; });
 }
-
-// 常見問題搜尋：依關鍵字篩選題目，沒有符合的分類整組隱藏
-(function () {
-  const input = document.querySelector('#faqSearch');
-  if (!input) return;
-  const empty = document.querySelector('#faqEmpty');
-  input.addEventListener('input', () => {
-    const q = input.value.trim().toLowerCase();
-    let shown = 0;
-    document.querySelectorAll('.faq-group').forEach(group => {
-      let any = false;
-      group.querySelectorAll('.faq-item').forEach(item => {
-        const match = !q || item.textContent.toLowerCase().includes(q);
-        item.hidden = !match;
-        if (q && match) item.open = true; else if (!q) item.open = false;
-        if (match) any = true;
-      });
-      group.hidden = !any;
-      if (any) shown++;
-    });
-    empty.hidden = shown > 0;
-  });
-})();

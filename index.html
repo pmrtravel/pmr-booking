@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20261006h" />
+  <link rel="stylesheet" href="./styles.css?v=20261006i" />
 </head>
 <body>
   <main class="shell">
@@ -17,7 +17,7 @@
       <p class="eyebrow">TRIP PLANNING · RESERVATION</p>
       <h1>開始規劃，<br><em>下一段旅程。</em></h1>
       <p class="intro">填妥需求後即可取得專屬匯款資訊；待客服確認款項後，即完成訂單。</p>
-      <div class="hero-links"><a class="hero-link" href="./my-orders.html">查詢我的訂單</a><a class="hero-link" href="#faq">常見問題</a></div>
+      <div class="hero-links"><a class="hero-link" href="./my-orders.html">查詢我的訂單</a><a class="hero-link" href="./faq.html">常見問題</a></div>
       <div class="hero-foot"><div><span>✦</span> 安心預約</div><div><span>✦</span> 專人服務</div><div><span>✦</span> 資料保護</div></div>
     </section>
 
@@ -59,76 +59,8 @@
       <section class="payment-result" id="paymentResult" hidden aria-live="polite"></section>
     </section>
 
-<section class="faq-panel" id="faq">
-  <div class="panel-heading"><p>FAQ</p><h2>常見問題</h2><span>下單前請先看過，共 41 題</span></div>
-  <div class="faq-search"><input id="faqSearch" type="search" placeholder="搜尋問題，例如：退款、行李、出票" aria-label="搜尋常見問題" /></div>
-  <div class="faq-groups" id="faqGroups">
-    <div class="faq-group"><h3><span>01</span>價格與票務說明</h3>
-      <details class="faq-item"><summary>價格是含稅來回票嗎？還有其他費用嗎？</summary><p>是的，所示價格皆為「含稅來回票」，除星宇與商務艙加價外，不另加收其他費用。</p></details>
-      <details class="faq-item"><summary>為什麼價格比官網便宜？</summary><p>我們透過特約管道取得優惠票價。專案價格僅限當日有效。</p></details>
-      <details class="faq-item"><summary>同一天查詢，為什麼我與朋友看到的價格不同？</summary><p>機票價格本身會浮動，與自行購買機票的情況相同。</p></details>
-      <details class="faq-item"><summary>小孩／嬰兒也是一樣價格嗎？</summary><p>是的。特惠票通常於出發前兩週出票，若屆時兒童機位售罄將無法補位，建議直接為兒童購買一張票。</p></details>
-      <details class="faq-item"><summary>可以只買單程嗎？</summary><p>本專案僅提供來回機票，無法單買單程。</p></details>
-      <details class="faq-item"><summary>可以購買商務艙嗎？</summary><p>可以。商務艙與加價星宇皆須於下單時一併確認、一併購買。若商務艙行程需轉機，國內線航段通常未設商務艙，該段會以經濟艙搭乘，國際線航段則為商務艙。</p></details>
-      <details class="faq-item"><summary>連假、春節、寒暑假也有相同價格嗎？</summary><p>旺季日期需先確認機位與是否開放，請先提供出發日期給我們查詢，並參考下方「不接單日期」。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>02</span>航班與航空選擇</h3>
-      <details class="faq-item"><summary>我們的機票是從哪個機場出發？</summary><p>優惠票一律由桃園機場（TPE）出發與返回。</p></details>
-      <details class="faq-item"><summary>可以指定航空公司或航班時間嗎？</summary><p>可以！匯款完成後，請於「立即開票」表單填寫去程、回程各最多 3 個許願航班，我們會盡力安排（選星宇需加價 $2,000／人，指定專案除外）。優惠價票種除團體票不保證是許願航班，但保證為許願當天航班，建議行程從第二天開始安排。</p></details>
-      <details class="faq-item"><summary>會被安排到紅眼航班或轉機嗎？</summary><p>非旅遊旺季皆安排直飛且非紅眼航班；僅在旺季機位極滿時才可能調整。</p></details>
-      <details class="faq-item"><summary>多人同行可以保證在同班飛機嗎？</summary><p>9 人（含）以內訂單皆會安排在同一班飛機；20 人（含以上）可團體使用促銷票，15 天內出票。</p></details>
-      <details class="faq-item"><summary>可以不同城市進出（如大阪進、東京出）嗎？</summary><p>依專案而定。專案說明有標示「可不同點進出」者才適用，其餘為從台灣出發、同一航點來回。</p></details>
-      <details class="faq-item"><summary>想前往較冷門的航點，可以處理嗎？</summary><p>可以，請告訴我們目的地與日期，我們會先為您確認可行性並盡快回覆。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>03</span>出票與報到流程</h3>
-      <details class="faq-item"><summary>付款後多久拿到機票？</summary><p>出發前兩週至前一天 18:00 前開立發送。</p></details>
-      <details class="faq-item"><summary>快出發了還沒收到機票，是正常的嗎？</summary><p>正常。電子機票會在出發前兩週至前一天 18:00 前陸續提供；只要已完成匯款與「立即開票」填單，我們一定會完成開票，請放心。</p></details>
-      <details class="faq-item"><summary>可以加價提早出票嗎？</summary><p>目前沒有提早出票的方案，電子機票統一於出發前兩週至前一天 18:00 前提供。</p></details>
-      <details class="faq-item"><summary>商務艙可以使用貴賓室嗎？</summary><p>可以！</p></details>
-      <details class="faq-item"><summary>護照沒辦好可先訂嗎？</summary><p>可以！先預訂，辦妥後再補資料。護照即將到期者也可出票，建議儘早換發。</p></details>
-      <details class="faq-item"><summary>能選位、加行李或累積里程嗎？</summary><p>行李：預設託運 23kg＋手提 7kg（廉航依其規定），加購可於機場現場辦理。選位：憑電子機票至官網線上報到與選位。里程：不保證可累積，部分票種為團體票送單無法累積，可自行確認線上補登里程。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>04</span>改期與取消</h3>
-      <details class="faq-item"><summary>付款後能取消退款嗎？</summary><p>下訂後無法取消或退款。</p></details>
-      <details class="faq-item"><summary>可以變更出發日期嗎？</summary><p>限下單 3 天內提出，且僅能改為「當月其他日期」。</p></details>
-      <details class="faq-item"><summary>如遇颱風或航空公司取消航班怎麼辦？</summary><p>天氣狀況我們普遍建議改期，當月任一時段都可以，沒有限定往前往後幾天。若要如期開票，請留意以下事項：（1）開票後若航班有任何變動，需要自行與航空公司聯繫處理更改事宜，這邊無法協助；若開票航班被取消，我們不再額外退款，需自行與航空公司聯繫更改日期事宜。（2）保險是否可以理賠，需自行與保險公司接洽聯繫。</p></details>
-      <details class="faq-item"><summary>臨時無法出發怎麼辦？</summary><p>因個人因素（如生病）無法出發，恕無法退款，這與自行購買機票的規定相同。</p></details>
-      <details class="faq-item"><summary>最後安排的航班不是我偏好的，可以不要嗎？</summary><p>安排的航班保證為許願當天，但無法保證是許願的哪一班，因此恕不接受因航班時段而退票或退款。</p></details>
-      <details class="faq-item"><summary>連假前後出發要注意什麼？</summary><p>連假前後極少數情況下可能出現開票狀況，雖然機率很低，仍建議出發日期盡量避開連假前後，行程會更有保障。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>05</span>票務來源與信任說明</h3>
-      <details class="faq-item"><summary>請問機票來源是什麼？是旅行社開票嗎？</summary><p>是的，我們的機票皆由合法合作旅行社開立，開票後均可正常報到與搭乘，請您放心。</p></details>
-      <details class="faq-item"><summary>這是里程票、員工票或團體票嗎？</summary><p>不是。這不是里程票、員工票或團體票，而是透過商業特約管道取得的優惠專案票。</p></details>
-      <details class="faq-item"><summary>會不會到了機場才發現不能搭？</summary><p>完全不會！開票完成後會提供正式的電子機票，您可隨時至航空公司官網查詢確認。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>06</span>付款與訂購方式</h3>
-      <details class="faq-item"><summary>提供哪些付款方式？可以刷卡或分期嗎？</summary><p>目前僅提供「銀行轉帳」，暫不支援刷卡及分期付款。不提供發票或收據。</p></details>
-      <details class="faq-item"><summary>如何進行下單？</summary><p>請在本頁填寫預約單並送出，取得專屬匯款帳號後完成轉帳；我們對帳無誤後，再請您填寫「立即開票」表單，提供旅客資料與許願航班。</p></details>
-      <details class="faq-item"><summary>匯款時需要注意什麼？</summary><p>轉帳備註請填寫旅遊名稱，例如「歐洲旅遊」、「泰國旅遊」。轉帳完成後，請提供帳號後五碼或明細截圖，我們會儘速為您確認。</p></details>
-      <details class="faq-item"><summary>「立即開票」需要提供哪些資料？</summary><p>旅客中英文姓名、生日、護照號碼與效期、聯絡電話、LINE ID、出發與回程日期、許願航班。資料將作為訂位與開票依據，送出前請再次核對。</p></details>
-      <details class="faq-item"><summary>可以先保留名額，晚點再匯款嗎？</summary><p>需完成匯款並對帳無誤才算購買成功，無法預先保留。如需延後匯款，請於匯款前再與我們確認是否仍有名額。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>07</span>專案規則</h3>
-      <details class="faq-item"><summary>專案需要先決定目的地和日期嗎？</summary><p>不需要。多數專案可先購買，兌換時再選擇航點與日期，於效期內使用即可。效期與可選航點依各專案說明為準。</p></details>
-      <details class="faq-item"><summary>一組多張的專案可以拆開給不同人、分次使用嗎？</summary><p>專案內有標示「可拆開使用」者，每張皆可分開、單人使用。</p></details>
-      <details class="faq-item"><summary>專案票可以在春節、連假使用嗎？</summary><p>依專案而定。許多特價專案不適用春節、聖誕、跨年及連假，請以專案說明為準。</p></details>
-      <details class="faq-item"><summary>特價或限時專案可以加價搭星宇嗎？</summary><p>依專案而定。部分限時專案限搭傳統航空、無法加價指定星宇；其餘一般專案可加價指定星宇，每人 NT$2,000。</p></details>
-      <details class="faq-item"><summary>一組中可以只讓部分人升級商務艙嗎？</summary><p>可以，需於下單時一併確認，升級費用依升級人數逐位計算。</p></details>
-      <details class="faq-item"><summary>機加酒專案，同行者是否保證同班機、同一棟住宿？</summary><p>我們會盡量為同行者安排相同航班與住宿；但因屬特別優惠專案，航空與飯店端無法保證一定相同。</p></details>
-      <details class="faq-item"><summary>限時專案可以延長時間嗎？</summary><p>限時專案僅在公告時間內受理，不另延長。</p></details>
-      <details class="faq-item"><summary>國旅飯店專案購買後，何時需要提供入住日期？</summary><p>購買後請於 7 天內告知想入住的日期，我們會立即向飯店查詢並鎖定房間；房型需依飯店當時房況安排，無法指定。若該日已客滿，我們會協助您調整至其他日期。</p></details>
-    </div>
-    <div class="faq-group"><h3><span>08</span>不接單日期</h3>
-      <details class="faq-item"><summary>2027（116 年）機票不接單日期</summary><div class="faq-body"><p>不論票種，訂單額滿時恕不受理。</p><table class="faq-table"><tbody>
-<tr><td>2026/12/22 – 2027/01/04</td><td>跨年元旦</td></tr><tr><td>02/03 – 02/14</td><td>春節過年</td></tr><tr><td>02/27 – 03/01</td><td>228 連假</td></tr><tr><td>04/01 – 04/07</td><td>清明連假</td></tr><tr><td>04/28 – 05/03</td><td>勞動節</td></tr><tr><td>06/04 – 06/13</td><td>端午連假</td></tr><tr><td>09/10 – 09/19</td><td>中秋連假</td></tr><tr><td>10/08 – 10/11</td><td>國慶連假</td></tr><tr><td>10/22 – 10/25</td><td>光復連假</td></tr><tr><td>12/23 – 2028/01/02</td><td>跨年元旦</td></tr></tbody></table></div></details>
-      <details class="faq-item"><summary>國內旅遊連假不受理日期</summary><div class="faq-body"><p>入住或行程日期與下列期間重疊，恕不受理下單；一般週末仍可洽詢。其他日期需求歡迎私訊，建議提早規劃。</p><table class="faq-table"><tbody>
-<tr><td>10/9（五）– 10/11（日）</td><td>國慶日</td></tr><tr><td>10/24（六）– 10/26（一）</td><td>臺灣光復紀念日</td></tr><tr><td>12/25（五）– 12/27（日）</td><td>行憲紀念日</td></tr><tr><td>2026/12/30（三）– 2027/1/2（六）</td><td>跨年</td></tr></tbody></table></div></details>
-    </div>
-  </div>
-  <p class="faq-empty" id="faqEmpty" hidden>找不到相關問題，請直接透過 LINE 詢問我們。</p>
-</section>
   </main>
   <script src="https://cdn.jsdelivr.net/gh/yoyoyo12371-hub/PMRTEST@main/shared-data.js"></script>
-  <script src="./app.js?v=20261006h"></script>
+  <script src="./app.js?v=20261006i"></script>
 </body>
 </html>
