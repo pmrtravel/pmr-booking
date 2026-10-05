@@ -221,4 +221,5 @@ dialog#detailDialog::backdrop{background:rgba(3,7,6,.72);backdrop-filter:blur(3p
 .faq-table td{padding:8px 4px;border-top:1px solid var(--line)}
 .faq-table td:last-child{text-align:right;color:var(--gold-hi)}
 .faq-empty{color:var(--muted);text-align:center;padding:24px 0}
-.hero-link+.hero-link{margin-top:12px}
+.hero-links{display:flex;flex-wrap:wrap;gap:10px;align-self:flex-start;margin-top:30px}
+.hero-links .hero-link{margin-top:0}
