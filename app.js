@@ -10,7 +10,7 @@ const paymentAccounts = {
 };
 
 const ticketRows = [['economyCount', '經濟艙'], ['businessCount', '商務艙'], ['firstCount', '頭等艙'], ['starluxUpgrade', '其中幾張加購星宇']];
-const roomTypes = ['雙人房', '三人房', '四人房', '家庭房', '單人房', '其他／依飯店安排'];
+const roomTypes = ['雙人房', '三人房', '四人房', '家庭房'];
 const bookingTypes = [['flight', '✈️ 機票'], ['hotel', '🏨 飯店'], ['package', '✈️🏨 機加酒']];
 const typePrefix = { hotel: '【飯店】', package: '【機加酒】' };
 const projectPlaceholders = { flight: '請將專案文字整段貼上', hotel: '請貼上飯店專案文字，或填寫飯店名稱與專案', package: '請貼上機加酒專案文字' };
