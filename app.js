@@ -56,7 +56,7 @@ form.addEventListener('submit', async (event) => {
   // 欄位對應（不新增 Sheet 欄位）：
   //   預定張數 = 機票張數／飯店間數／機加酒人數
   //   艙等分布 = 艙等／房型／艙等｜房型
-  //   星宇加購 = 機票「N 張」／飯店固定「無」／機加酒「N 張」或「無」
+  //   星宇加購 = 機票「N 張」或「無」／飯店固定「無」／機加酒「N 張」或「無」
   if (type === 'hotel') {
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
     data.ticketCount = roomTotal;
@@ -73,7 +73,7 @@ form.addEventListener('submit', async (event) => {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
     data.ticketCount = economy + business + first;
     data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張`;
-    data.starluxUpgrade = `${data.starluxUpgrade} 張`;
+    data.starluxUpgrade = Number(data.starluxUpgrade) > 0 ? `${data.starluxUpgrade} 張` : '無';
     if (data.ticketCount === 0) { status.textContent = '請至少選擇一張機票。'; status.className = 'form-status error'; return; }
   }
   if (typePrefix[type] && !data.project.trim().startsWith('【')) data.project = typePrefix[type] + data.project.trim();
