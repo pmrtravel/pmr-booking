@@ -10,14 +10,15 @@ const paymentAccounts = {
 };
 
 const ticketRows = [['economyCount', '經濟艙'], ['businessCount', '商務艙'], ['firstCount', '頭等艙'], ['starluxUpgrade', '其中幾張加購星宇']];
-const roomTypes = ['雙人房', '三人房', '四人房', '家庭房'];
+const roomTypes = ['雙人房', '三人房', '四人房', '家庭房', '加床'];
+const roomUnit = label => label === '加床' ? '床' : '間';
 const bookingTypes = [['flight', '✈️ 機票'], ['hotel', '🏨 飯店'], ['package', '✈️🏨 機加酒']];
 const typePrefix = { hotel: '【飯店】', package: '【機加酒】' };
 const projectPlaceholders = { flight: '請將專案文字整段貼上', hotel: '請貼上飯店專案文字，或填寫飯店名稱與專案', package: '請貼上機加酒專案文字' };
 const ticketMatrix = document.querySelector('#ticketMatrix');
 const countOptions = (unit, max = 20) => `<option value="0" selected>0 ${unit}</option>${Array.from({length: max}, (_, n) => `<option value="${n + 1}">${n + 1} ${unit}</option>`).join('')}`;
 const selectCard = (name, label, options) => `<label class="ticket-card"><span class="ticket-label">${label}</span><select name="${name}">${options}</select></label>`;
-const roomCards = () => roomTypes.map((label, i) => selectCard(`room${i}`, label, countOptions('間'))).join('');
+const roomCards = () => roomTypes.map((label, i) => selectCard(`room${i}`, label, countOptions(roomUnit(label)))).join('');
 const currentType = () => (form.querySelector('input[name="bookingType"]:checked') || {}).value || 'flight';
 
 function renderMatrix(type) {
@@ -84,7 +85,7 @@ function recognizeAmount() {
       Object.entries(cabinNames).forEach(([label, names], i) => add(label, names, val(ticketRows[i][0]), '張'));
       starluxQty = val('starluxUpgrade');
     }
-    roomTypes.forEach((label, i) => add(label, [label.split('／')[0]], val(`room${i}`), '間'));
+    roomTypes.forEach((label, i) => add(label, [label], val(`room${i}`), roomUnit(label)));
   }
   if (starluxQty) {
     const price = findPrice(text, ['星宇[^\\d\\n]{0,6}加購', '加購星宇', '加購[^\\d\\n]{0,6}星宇', '星宇']) ?? 2000;
@@ -114,7 +115,7 @@ form.addEventListener('submit', async (event) => {
   data.orderAmount = Number(data.orderAmount);
   const rooms = roomTypes.map((label, i) => [label, Number(data[`room${i}`] || 0)]).filter(([, n]) => n > 0);
   const roomText = rooms.map(([label, n]) => `${label}×${n}`).join('、');
-  const roomTotal = rooms.reduce((sum, [, n]) => sum + n, 0);
+  const roomTotal = rooms.filter(([label]) => label !== '加床').reduce((sum, [, n]) => sum + n, 0); // 加床不算間數
   // 欄位對應（不新增 Sheet 欄位）：
   //   預定張數 = 機票張數／飯店間數／機加酒的機票張數
   //   艙等分布 = 艙等／房型／機票艙等分布｜房型
@@ -131,6 +132,7 @@ form.addEventListener('submit', async (event) => {
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
     if (starlux > tickets) { status.textContent = '加購星宇的張數不能超過機票張數。'; status.className = 'form-status error'; return; }
     data.ticketCount = tickets;
+    data.sheetCount = `共${tickets}張/共${roomTotal}間`;
     data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張｜${roomText}`;
     data.starluxUpgrade = starlux > 0 ? `${starlux} 張` : '無';
   } else {
@@ -180,7 +182,7 @@ async function notifyLineGroup(data) {
   const notification = { action: 'webBooking', order: {
     orderId: data.orderId || '', phone: data.phone || '',
     contactName: data.contactName, lineId: data.lineId || '',
-    bookingType: data.bookingType || 'flight', project: data.project, ticketCount: data.ticketCount, cabinClass: data.cabinClass,
+    bookingType: data.bookingType || 'flight', project: data.project, ticketCount: data.ticketCount, countText: data.sheetCount || '', cabinClass: data.cabinClass,
     starluxUpgrade: data.starluxUpgrade, orderAmount: data.orderAmount, lineName: data.lineName,
     referrer: data.referrer === '其他' ? (data.otherReferrer || '其他') : data.referrer,
     remarks: data.remarks || ''
