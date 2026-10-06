@@ -223,3 +223,4 @@ dialog#detailDialog::backdrop{background:rgba(3,7,6,.72);backdrop-filter:blur(3p
 .faq-empty{color:var(--muted);text-align:center;padding:24px 0}
 .hero-links{display:flex;flex-wrap:wrap;gap:10px;align-self:flex-start;margin-top:30px}
 .hero-links .hero-link{margin-top:0}
+.type-switch{margin-bottom:18px}

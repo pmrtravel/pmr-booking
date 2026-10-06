@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=20261006i" />
+  <link rel="stylesheet" href="./styles.css?v=20261007a" />
 </head>
 <body>
   <main class="shell">
@@ -26,9 +26,9 @@
       <form id="bookingForm">
         <fieldset>
           <legend><span>01</span> 預約內容</legend>
+          <div class="type-switch"><p class="matrix-title">預訂類型 <i>*</i></p><div class="chips" id="bookingTypes"></div></div>
           <label class="full">預定專案 <i>*</i><textarea name="project" required rows="4" placeholder="請將專案文字整段貼上"></textarea></label>
           <div class="ticket-matrix-wrap">
-            <p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p>
             <div class="ticket-matrix" id="ticketMatrix"></div>
           </div>
           <div class="amount-card">
@@ -61,6 +61,6 @@
 
   </main>
   <script src="https://cdn.jsdelivr.net/gh/yoyoyo12371-hub/PMRTEST@main/shared-data.js"></script>
-  <script src="./app.js?v=20261006i"></script>
+  <script src="./app.js?v=20261007a"></script>
 </body>
 </html>
