@@ -112,7 +112,7 @@ form.addEventListener('submit', async (event) => {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
     data.ticketCount = economy + business + first;
     data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張`;
-    data.starluxUpgrade = Number(data.starluxUpgrade) > 0 ? `${data.starluxUpgrade} 張` : '無';
+    data.starluxUpgrade = `${Number(data.starluxUpgrade)}張星宇/0間加床`;
     if (data.ticketCount === 0) { status.textContent = '請至少選擇一張機票。'; status.className = 'form-status error'; return; }
   }
   if (typePrefix[type] && !data.project.trim().startsWith('【')) data.project = typePrefix[type] + data.project.trim();
