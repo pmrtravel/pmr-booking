@@ -11,14 +11,14 @@ const paymentAccounts = {
 
 const ticketRows = [['economyCount', '經濟艙'], ['businessCount', '商務艙'], ['firstCount', '頭等艙'], ['starluxUpgrade', '其中幾張加購星宇']];
 const roomTypes = ['雙人房', '三人房', '四人房', '家庭房', '加床'];
-const roomUnit = label => label === '加床' ? '床' : '間';
+const roomUnit = () => '間';
 const bookingTypes = [['flight', '✈️ 機票'], ['hotel', '🏨 飯店'], ['package', '✈️🏨 機加酒']];
 const typePrefix = { hotel: '【飯店】', package: '【機加酒】' };
 const projectPlaceholders = { flight: '請將專案文字整段貼上', hotel: '請貼上飯店專案文字，或填寫飯店名稱與專案', package: '請貼上機加酒專案文字' };
 const ticketMatrix = document.querySelector('#ticketMatrix');
 const countOptions = (unit, max = 20) => `<option value="0" selected>0 ${unit}</option>${Array.from({length: max}, (_, n) => `<option value="${n + 1}">${n + 1} ${unit}</option>`).join('')}`;
 const selectCard = (name, label, options) => `<label class="ticket-card"><span class="ticket-label">${label}</span><select name="${name}">${options}</select></label>`;
-const roomCards = () => roomTypes.map((label, i) => selectCard(`room${i}`, label, countOptions(roomUnit(label)))).join('');
+const roomCards = () => roomTypes.map((label, i) => selectCard(`room${i}`, label === '加床' ? '其中幾間要加床' : label, countOptions('間'))).join('');
 const currentType = () => (form.querySelector('input[name="bookingType"]:checked') || {}).value || 'flight';
 
 function renderMatrix(type) {
@@ -48,61 +48,33 @@ const amountInput = form.querySelector('input[name="orderAmount"]');
 let amountEdited = false;
 amountInput.addEventListener('input', event => { if (event.isTrusted) amountEdited = true; });
 const fmt = n => n.toLocaleString('en-US');
-function findPrice(text, names, withGroup = false) {
-  const re = new RegExp(`(?:${names.join('|')})[^\\d\\n]{0,14}(\\d{4,6})`);
-  for (const line of text.split('\n')) {
-    const m = line.match(re);
-    if (!m) continue;
-    const g = line.match(/(?:一組|每組|1組)\s*(\d+)\s*[位人張]|(\d+)\s*[位人張]\s*(?:一組|\/組|為一組)/);
-    const group = g ? Number(g[1] || g[2]) : 1;
-    return withGroup ? { price: Number(m[1]), group } : Number(m[1]);
-  }
-  return withGroup ? null : null;
-}
+const roomLabel = label => label === '加床' ? '其中幾間要加床' : label;
 function recognizeAmount() {
   const type = currentType();
-  const text = form.querySelector('textarea[name="project"]').value.replace(/(\d),(?=\d{3})/g, '$1');
+  const text = form.querySelector('textarea[name="project"]').value;
+  const P = window.PMRPricing;
   const val = name => Number((form.querySelector(`[name="${name}"]`) || {}).value || 0);
-  const cabinNames = { 經濟艙: ['經濟艙', '經濟'], 商務艙: ['商務艙', '商務'], 頭等艙: ['頭等艙', '頭等'] };
-  const items = []; const missing = []; const groupErr = [];
-  const add = (label, names, qty, unit) => {
-    if (!qty) return;
-    const found = findPrice(text, names, true);
-    if (!found) { missing.push(label); return; }
-    if (found.group > 1) {
-      if (qty % found.group !== 0) { groupErr.push(`${label}須 ${found.group} ${unit}為一組才能購買，目前選了 ${qty} ${unit}`); return; }
-      items.push({ label, price: found.price, qty: qty / found.group, unit: '組', note: `${qty} ${unit}` });
-      return;
-    }
-    items.push({ label, price: found.price, qty, unit });
-  };
+  const items = []; const problems = []; let selected = false;
+  const take = r => { if (r.items) items.push(...r.items); else problems.push(r.msg); };
   let starluxQty = 0;
-  if (type === 'flight') {
-    Object.entries(cabinNames).forEach(([label, names], i) => add(label, names, val(ticketRows[i][0]), '張'));
+  if (type === 'flight' || type === 'package') {
+    const offers = P.parseOffers(text);
+    ['經濟艙', '商務艙', '頭等艙'].forEach((cabin, i) => { const q = val(ticketRows[i][0]); if (q) { selected = true; take(P.priceCabin(offers, cabin, q)); } });
     starluxQty = val('starluxUpgrade');
-  } else {
-    if (type === 'package') {
-      Object.entries(cabinNames).forEach(([label, names], i) => add(label, names, val(ticketRows[i][0]), '張'));
-      starluxQty = val('starluxUpgrade');
-    }
-    roomTypes.forEach((label, i) => add(label, [label], val(`room${i}`), roomUnit(label)));
   }
-  if (starluxQty) {
-    const price = findPrice(text, ['星宇[^\\d\\n]{0,6}加購', '加購星宇', '加購[^\\d\\n]{0,6}星宇', '星宇']) ?? 2000;
-    items.push({ label: '加購星宇', price, qty: starluxQty, unit: '張' });
+  if (type === 'hotel' || type === 'package') {
+    roomTypes.forEach((label, i) => { const q = val(`room${i}`); if (q) { selected = true; take(P.priceRoom(text, label, q)); } });
   }
-  const noSelection = !items.length && !missing.length && !groupErr.length;
-  if (noSelection) { aiBox.hidden = true; return; }
+  if (starluxQty) items.push({ label: '加購星宇', price: P.starluxPrice(text), qty: starluxQty, unit: '張', note: '' });
+  if (!selected && !starluxQty) { aiBox.hidden = true; return; }
   const total = items.reduce((s, i) => s + i.price * i.qty, 0);
-  const parts = items.map(i => `${i.label} ${fmt(i.price)}${i.note ? ` × ${i.qty} 組（${i.note}）` : (i.qty > 1 ? ` × ${i.qty}` : '')}`);
+  const parts = items.map(i => `${roomLabel(i.label)} ${fmt(i.price)}${i.qty > 1 || i.note ? ` × ${i.qty}${i.unit === '組' ? ' 組' : ''}` : ''}${i.note ? `（${i.note}）` : ''}`);
   let html = '<p class="ai-title">✦ AI 辨識金額</p>';
   if (items.length) html += `<p class="ai-calc">${parts.join(' + ')} = <b>NT$ ${fmt(total)}</b></p>`;
-  if (groupErr.length) html += `<p class="ai-miss">${groupErr.join('；')}。請調整數量，或先向官方帳號確認後，自行輸入對方告知的金額。</p>`;
-  if (missing.length) html += `<p class="ai-miss">在專案文字中找不到「${missing.join('、')}」的價格，請自行確認並填寫金額。</p>`;
+  if (problems.length) html += `<p class="ai-miss">${problems.join('；')}。無法自動計算，請調整數量，或先向官方帳號確認後，自行輸入對方告知的金額。</p>`;
   html += '<p class="ai-warn">⚠️ 此金額由 AI 自動辨識與計算，可能有誤。請務必自行核對專案內容與價格，確認無誤後再付款。若專案有成組、限量或特殊規則，請先向官方帳號確認，再自行輸入對方告知的金額。</p>';
   aiBox.innerHTML = html; aiBox.hidden = false;
-  if (items.length && !missing.length && !groupErr.length && !amountEdited) amountInput.value = total;
-  else if (!amountEdited) amountInput.value = '';
+  if (!amountEdited) amountInput.value = items.length && !problems.length ? total : '';
 }
 form.addEventListener('input', event => { if (event.target !== amountInput) recognizeAmount(); });
 form.addEventListener('change', event => { if (event.target !== amountInput) recognizeAmount(); });
@@ -114,7 +86,7 @@ form.addEventListener('submit', async (event) => {
   const type = data.bookingType || 'flight';
   data.orderAmount = Number(data.orderAmount);
   const rooms = roomTypes.map((label, i) => [label, Number(data[`room${i}`] || 0)]).filter(([, n]) => n > 0);
-  const roomText = rooms.map(([label, n]) => `${label}×${n}`).join('、');
+  const roomText = rooms.map(([label, n]) => label === '加床' ? `其中${n}間加床` : `${label}×${n}`).join('、');
   const roomTotal = rooms.filter(([label]) => label !== '加床').reduce((sum, [, n]) => sum + n, 0); // 加床不算間數
   // 欄位對應（不新增 Sheet 欄位）：
   //   預定張數 = 機票張數／飯店間數／機加酒的機票張數
