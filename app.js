@@ -86,7 +86,8 @@ form.addEventListener('submit', async (event) => {
   const type = data.bookingType || 'flight';
   data.orderAmount = Number(data.orderAmount);
   const rooms = roomTypes.map((label, i) => [label, Number(data[`room${i}`] || 0)]).filter(([, n]) => n > 0);
-  const roomText = rooms.map(([label, n]) => label === '加床' ? `其中${n}間加床` : `${label}×${n}`).join('、');
+  const bedCount = (rooms.find(([label]) => label === '加床') || [0, 0])[1];
+  const roomText = rooms.filter(([label]) => label !== '加床').map(([label, n]) => `${label}×${n}`).join('、');
   const roomTotal = rooms.filter(([label]) => label !== '加床').reduce((sum, [, n]) => sum + n, 0); // 加床不算間數
   // 欄位對應（不新增 Sheet 欄位）：
   //   預定張數 = 機票張數／飯店間數／機加酒的機票張數
@@ -96,7 +97,7 @@ form.addEventListener('submit', async (event) => {
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
     data.ticketCount = roomTotal;
     data.cabinClass = roomText;
-    data.starluxUpgrade = '無';
+    data.starluxUpgrade = `0張星宇/${bedCount}間加床`;
   } else if (type === 'package') {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount), starlux = Number(data.starluxUpgrade || 0);
     const tickets = economy + business + first;
@@ -106,7 +107,7 @@ form.addEventListener('submit', async (event) => {
     data.ticketCount = tickets;
     data.sheetCount = `共${tickets}張/共${roomTotal}間`;
     data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張｜${roomText}`;
-    data.starluxUpgrade = starlux > 0 ? `${starlux} 張` : '無';
+    data.starluxUpgrade = `${starlux}張星宇/${bedCount}間加床`;
   } else {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
     data.ticketCount = economy + business + first;
