@@ -95,6 +95,7 @@ form.addEventListener('submit', async (event) => {
   if (type === 'hotel') {
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
     data.ticketCount = roomTotal;
+    data.sheetCount = `共0張/共${roomTotal}間`;
     data.cabinClass = roomText;
     data.starluxUpgrade = `0張星宇/${bedCount}間加床`;
   } else if (type === 'package') {
@@ -110,6 +111,7 @@ form.addEventListener('submit', async (event) => {
   } else {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
     data.ticketCount = economy + business + first;
+    data.sheetCount = `共${data.ticketCount}張/共0間`;
     data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張`;
     data.starluxUpgrade = `${Number(data.starluxUpgrade)}張星宇/0間加床`;
     if (data.ticketCount === 0) { status.textContent = '請至少選擇一張機票。'; status.className = 'form-status error'; return; }
