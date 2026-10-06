@@ -25,11 +25,8 @@ function renderMatrix(type) {
   if (type === 'hotel') {
     html = `<p class="matrix-title">預定間數 <i>*</i><small>請在每一列選擇間數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${roomCards()}</div>`;
   } else if (type === 'package') {
-    const people = `<option value="1" selected>1 位</option>${Array.from({length: 19}, (_, n) => `<option value="${n + 2}">${n + 2} 位</option>`).join('')}`;
-    const cabins = ['經濟艙', '商務艙', '頭等艙'].map(c => `<option value="${c}">${c}</option>`).join('');
-    html = `<p class="matrix-title">預定人數與艙等 <i>*</i></p><div class="ticket-selector-grid">${selectCard('partySize', '預定人數', people)}${selectCard('packageCabin', '艙等', cabins)}</div>`
-      + `<p class="matrix-title" style="margin-top:20px">房型與間數 <i>*</i><small>請在每一列選擇間數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${roomCards()}</div>`
-      + `<div class="ticket-selector-grid" style="margin-top:12px">${selectCard('starluxUpgrade', '其中幾位加購星宇', countOptions('位'))}</div>`;
+    html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張'))).join('')}</div>`
+      + `<p class="matrix-title" style="margin-top:20px">預定間數 <i>*</i><small>請在每一列選擇間數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${roomCards()}</div>`;
   } else {
     html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張'))).join('')}</div>`;
   }
@@ -84,15 +81,14 @@ function recognizeAmount() {
     starluxQty = val('starluxUpgrade');
   } else {
     if (type === 'package') {
-      const cabin = form.querySelector('[name="packageCabin"]').value;
-      add(cabin, cabinNames[cabin], val('partySize'), '位');
+      Object.entries(cabinNames).forEach(([label, names], i) => add(label, names, val(ticketRows[i][0]), '張'));
       starluxQty = val('starluxUpgrade');
     }
     roomTypes.forEach((label, i) => add(label, [label.split('／')[0]], val(`room${i}`), '間'));
   }
   if (starluxQty) {
     const price = findPrice(text, ['星宇[^\\d\\n]{0,6}加購', '加購星宇', '加購[^\\d\\n]{0,6}星宇', '星宇']) ?? 2000;
-    items.push({ label: '加購星宇', price, qty: starluxQty, unit: type === 'flight' ? '張' : '位' });
+    items.push({ label: '加購星宇', price, qty: starluxQty, unit: '張' });
   }
   const noSelection = !items.length && !missing.length && !groupErr.length;
   if (noSelection) { aiBox.hidden = true; return; }
@@ -120,8 +116,8 @@ form.addEventListener('submit', async (event) => {
   const roomText = rooms.map(([label, n]) => `${label}×${n}`).join('、');
   const roomTotal = rooms.reduce((sum, [, n]) => sum + n, 0);
   // 欄位對應（不新增 Sheet 欄位）：
-  //   預定張數 = 機票張數／飯店間數／機加酒人數
-  //   艙等分布 = 艙等／房型／艙等｜房型
+  //   預定張數 = 機票張數／飯店間數／機加酒的機票張數
+  //   艙等分布 = 艙等／房型／機票艙等分布｜房型
   //   星宇加購 = 機票「N 張」或「無」／飯店固定「無」／機加酒「N 張」或「無」
   if (type === 'hotel') {
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
@@ -129,11 +125,13 @@ form.addEventListener('submit', async (event) => {
     data.cabinClass = roomText;
     data.starluxUpgrade = '無';
   } else if (type === 'package') {
-    const party = Number(data.partySize || 0), starlux = Number(data.starluxUpgrade || 0);
+    const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount), starlux = Number(data.starluxUpgrade || 0);
+    const tickets = economy + business + first;
+    if (tickets === 0) { status.textContent = '請至少選擇一張機票。'; status.className = 'form-status error'; return; }
     if (roomTotal === 0) { status.textContent = '請至少選擇一間房。'; status.className = 'form-status error'; return; }
-    if (starlux > party) { status.textContent = '加購星宇的人數不能超過預定人數。'; status.className = 'form-status error'; return; }
-    data.ticketCount = party;
-    data.cabinClass = `${data.packageCabin || '經濟艙'}｜${roomText}`;
+    if (starlux > tickets) { status.textContent = '加購星宇的張數不能超過機票張數。'; status.className = 'form-status error'; return; }
+    data.ticketCount = tickets;
+    data.cabinClass = `經濟艙 ${economy} 張／商務艙 ${business} 張／頭等艙 ${first} 張｜${roomText}`;
     data.starluxUpgrade = starlux > 0 ? `${starlux} 張` : '無';
   } else {
     const economy = Number(data.economyCount), business = Number(data.businessCount), first = Number(data.firstCount);
