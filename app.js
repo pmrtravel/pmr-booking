@@ -4,7 +4,6 @@ const LINE_NOTIFY_API_URL = 'https://script.google.com/macros/s/AKfycbwtBf4OXPwt
 const form = document.querySelector('#bookingForm');
 const status = document.querySelector('#formStatus');
 const paymentResult = document.querySelector('#paymentResult');
-const hasPMRStore = () => Boolean(window.PMRStore && typeof window.PMRStore.pushOrderToSheet === 'function');
 const paymentAccounts = {
   'default': { bank: '807 永豐銀行 營業部分行', account: '20201800325399' }
 };
@@ -117,21 +116,13 @@ form.addEventListener('submit', async (event) => {
   }
   if (typePrefix[type] && !data.project.trim().startsWith('【')) data.project = typePrefix[type] + data.project.trim();
   const submit = form.querySelector('.submit');
-  if (!hasPMRStore() && API_URL.includes('PASTE_YOUR')) { status.textContent = '訂單同步服務尚未載入，請重新整理後再試。'; status.className = 'form-status error'; return; }
   submit.disabled = true; status.textContent = '正在送出您的預約…'; status.className = 'form-status';
   try {
-    const pmrOrder = toPMROrder(data);
-    data.orderId = pmrOrder.id;
-    if (hasPMRStore()) {
-      const saved = await window.PMRStore.pushOrderToSheet(pmrOrder);
-      if (!saved) throw new Error('PMR 訂單資料庫暫時無法寫入');
-    } else {
-      const response = await fetch(API_URL, { method: 'POST', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data) });
-      const result = await response.json();
-      if (!result.ok) throw new Error(result.error || '送出失敗');
-    }
-    const notificationSent = await notifyLineGroup(data);
-    showPaymentInfo(data, notificationSent);
+    data.orderId = toPMROrder(data).id;
+    // 訂單只寫入「PMR 旅遊規劃訂單總表」並通知客服群組（J168 資料庫已不使用）。
+    const result = await notifyLineGroup(data);
+    if (!result || !result.ok) throw new Error('訂單暫時無法送出');
+    showPaymentInfo(data, true);
   } catch (error) { status.textContent = `送出失敗：${error.message}，請稍後再試。`; status.className = 'form-status error'; }
   finally { submit.disabled = false; }
 });
@@ -162,9 +153,8 @@ async function notifyLineGroup(data) {
   }};
   try {
     const response = await fetch(LINE_NOTIFY_API_URL, { method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(notification) });
-    const result = await response.json().catch(() => null);
-    return Boolean(result && result.ok);
-  } catch (_error) { return false; }
+    return await response.json().catch(() => null);
+  } catch (_error) { return null; }
 }
 
 function showPaymentInfo(data, notificationSent) {
