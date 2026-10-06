@@ -224,3 +224,9 @@ dialog#detailDialog::backdrop{background:rgba(3,7,6,.72);backdrop-filter:blur(3p
 .hero-links{display:flex;flex-wrap:wrap;gap:10px;align-self:flex-start;margin-top:30px}
 .hero-links .hero-link{margin-top:0}
 .type-switch{margin-bottom:18px}
+
+.ai-amount{margin-top:14px;padding:16px 18px;border-radius:14px;border:1px solid rgba(201,169,110,.45);background:rgba(201,169,110,.08);font-size:14px;line-height:1.7}
+.ai-amount .ai-title{font-weight:700;margin:0 0 4px}
+.ai-amount .ai-calc{margin:0 0 6px}
+.ai-amount .ai-miss{margin:0 0 6px;color:#b45309}
+.ai-amount .ai-warn{margin:0;font-size:13px;opacity:.85}

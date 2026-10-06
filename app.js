@@ -44,6 +44,59 @@ form.addEventListener('change', event => {
 });
 ['楊翰','阮糖','傑評','史考特','香魚','其他'].forEach((name, index) => document.querySelector('#referrers').insertAdjacentHTML('beforeend', `<label><input type="radio" name="referrer" value="${name}" ${index === 0 ? 'required' : ''}><span>${name}</span></label>`));
 
+// ===== AI 辨識金額：從貼上的專案文字找出各艙等／房型單價，依所選數量試算 =====
+const aiBox = document.querySelector('#aiAmount');
+const amountInput = form.querySelector('input[name="orderAmount"]');
+let amountEdited = false;
+amountInput.addEventListener('input', event => { if (event.isTrusted) amountEdited = true; });
+const fmt = n => n.toLocaleString('en-US');
+function findPrice(text, names) {
+  const re = new RegExp(`(?:${names.join('|')})[^\\d\\n]{0,14}(\\d{4,6})`);
+  const m = text.match(re);
+  return m ? Number(m[1]) : null;
+}
+function recognizeAmount() {
+  const type = currentType();
+  const text = form.querySelector('textarea[name="project"]').value.replace(/(\d),(?=\d{3})/g, '$1');
+  const val = name => Number((form.querySelector(`[name="${name}"]`) || {}).value || 0);
+  const cabinNames = { 經濟艙: ['經濟艙', '經濟'], 商務艙: ['商務艙', '商務'], 頭等艙: ['頭等艙', '頭等'] };
+  const items = []; const missing = [];
+  const add = (label, names, qty, unit) => {
+    if (!qty) return;
+    const price = findPrice(text, names);
+    if (price === null) { missing.push(label); return; }
+    items.push({ label, price, qty, unit });
+  };
+  let starluxQty = 0;
+  if (type === 'flight') {
+    Object.entries(cabinNames).forEach(([label, names], i) => add(label, names, val(ticketRows[i][0]), '張'));
+    starluxQty = val('starluxUpgrade');
+  } else {
+    if (type === 'package') {
+      const cabin = form.querySelector('[name="packageCabin"]').value;
+      add(cabin, cabinNames[cabin], val('partySize'), '位');
+      starluxQty = val('starluxUpgrade');
+    }
+    roomTypes.forEach((label, i) => add(label, [label.split('／')[0]], val(`room${i}`), '間'));
+  }
+  if (starluxQty) {
+    const price = findPrice(text, ['星宇[^\\d\\n]{0,6}加購', '加購星宇', '加購[^\\d\\n]{0,6}星宇', '星宇']) ?? 2000;
+    items.push({ label: '加購星宇', price, qty: starluxQty, unit: type === 'flight' ? '張' : '位' });
+  }
+  const noSelection = !items.length && !missing.length;
+  if (noSelection) { aiBox.hidden = true; return; }
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const parts = items.map(i => `${i.label} ${fmt(i.price)}${i.qty > 1 ? ` × ${i.qty}` : ''}`);
+  let html = '<p class="ai-title">✦ AI 辨識金額</p>';
+  if (items.length) html += `<p class="ai-calc">${parts.join(' + ')} = <b>NT$ ${fmt(total)}</b></p>`;
+  if (missing.length) html += `<p class="ai-miss">在專案文字中找不到「${missing.join('、')}」的價格，請自行確認並填寫金額。</p>`;
+  html += '<p class="ai-warn">⚠️ 此金額由 AI 自動辨識與計算，可能有誤。請務必自行核對專案內容與價格，確認無誤後再付款。</p>';
+  aiBox.innerHTML = html; aiBox.hidden = false;
+  if (items.length && !missing.length && !amountEdited) amountInput.value = total;
+}
+form.addEventListener('input', event => { if (event.target !== amountInput) recognizeAmount(); });
+form.addEventListener('change', event => { if (event.target !== amountInput) recognizeAmount(); });
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!form.reportValidity()) return;
@@ -135,5 +188,5 @@ function showPaymentInfo(data, notificationSent) {
   paymentResult.hidden = false;
   const notifyNote = notificationSent ? '已同步通知客服群組。' : '訂單已記錄，客服將盡快與您聯繫。';
   paymentResult.innerHTML = `<div class="payment-icon">✓</div><h3>訂單已送出</h3><p>${data.contactName}，請依下方資訊完成匯款。<br>本次訂單介紹人：${referrer}</p><div class="bank-card"><p class="label">PAYMENT INFORMATION</p><h4>匯款資訊</h4><div class="bank-row"><span>銀行代碼／分行</span><strong>${details.bank}</strong></div><div class="bank-row"><span>匯款帳號</span><strong>${details.account}</strong></div></div><div class="payment-note">${notifyNote}<br>轉帳完成後，請提供「帳號後五碼」或「明細截圖」，我們會盡快為您確認。<br><b>待客服確認款項後，即完成訂單。</b></div><button class="restart" type="button">填寫另一筆預約</button>`;
-  paymentResult.querySelector('.restart').addEventListener('click', () => { form.reset(); renderMatrix('flight'); form.querySelector('textarea[name="project"]').placeholder = projectPlaceholders.flight; form.hidden = false; paymentResult.hidden = true; });
+  paymentResult.querySelector('.restart').addEventListener('click', () => { form.reset(); amountEdited = false; aiBox.hidden = true; renderMatrix('flight'); form.querySelector('textarea[name="project"]').placeholder = projectPlaceholders.flight; form.hidden = false; paymentResult.hidden = true; });
 }
