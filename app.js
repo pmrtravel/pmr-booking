@@ -39,7 +39,7 @@ form.addEventListener('change', event => {
   renderMatrix(event.target.value);
   form.querySelector('textarea[name="project"]').placeholder = projectPlaceholders[event.target.value];
 });
-['楊翰','阮糖','傑評','史考特','香魚','其他'].forEach((name, index) => document.querySelector('#referrers').insertAdjacentHTML('beforeend', `<label><input type="radio" name="referrer" value="${name}" ${index === 0 ? 'required' : ''}><span>${name}</span></label>`));
+['楊翰','阮糖','鈺欣','傑評','史考特','香魚','其他'].forEach((name, index) => document.querySelector('#referrers').insertAdjacentHTML('beforeend', `<label><input type="radio" name="referrer" value="${name}" ${index === 0 ? 'required' : ''}><span>${name}</span></label>`));
 
 // ===== AI 辨識金額：從貼上的專案文字找出各艙等／房型單價，依所選數量試算 =====
 const aiBox = document.querySelector('#aiAmount');
