@@ -27,10 +27,10 @@ function renderMatrix(type) {
   if (type === 'hotel') {
     html = `<p class="matrix-title">預定間數與晚數 <i>*</i><small>每種房型請選擇間數與住宿晚數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${roomCards()}</div>`;
   } else if (type === 'package') {
-    html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張'))).join('')}</div>`
+    html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張', 50))).join('')}</div>`
       + `<p class="matrix-title" style="margin-top:20px">預定間數與晚數 <i>*</i><small>每種房型請選擇間數與住宿晚數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${roomCards()}</div>`;
   } else {
-    html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張'))).join('')}</div>`;
+    html = `<p class="matrix-title">預定張數 <i>*</i><small>請在每一列選擇張數；沒有需求請選 0。</small></p><div class="ticket-selector-grid">${ticketRows.map(([name, label]) => selectCard(name, label, countOptions('張', 50))).join('')}</div>`;
   }
   ticketMatrix.innerHTML = html;
 }
