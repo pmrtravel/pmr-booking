@@ -10,7 +10,7 @@ const paymentAccounts = {
 
 const ticketRows = [['economyCount', '經濟艙'], ['businessCount', '商務艙'], ['firstCount', '頭等艙']];
 // 目前暫停加購星宇，許願航班也不可指定星宇
-const starluxNote = '<p class="ai-warn" style="margin:14px 0 0">⚠️ 目前暫停加購星宇，許願航班也無法指定星宇航空。</p>';
+const starluxNote = '<p class="ai-warn" style="margin:14px 0 0">⚠️ 10/18 起新購買的專案暫停加購星宇，許願航班也無法指定星宇航空（已購買的專案不受影響）。</p>';
 const roomTypes = ['雙人房', '三人房', '四人房', '家庭房', '加床'];
 const roomUnit = () => '間';
 const bookingTypes = [['flight', '✈️ 機票'], ['hotel', '🏨 飯店'], ['package', '✈️🏨 機加酒']];
@@ -97,7 +97,7 @@ form.addEventListener('submit', async (event) => {
   const bedCount = (rooms.find(([label]) => label === '加床') || [0, 0])[1];
   const roomText = rooms.filter(([label]) => label !== '加床').map(([label, n, nt]) => `${label}×${n}/${nt}晚`).join('、');
   const roomTotal = rooms.filter(([label]) => label !== '加床').reduce((sum, [, n]) => sum + n, 0); // 加床不算間數
-  if (/星宇/.test(data.remarks || '')) { status.textContent = '目前暫停加購星宇，許願航班也無法指定星宇航空，請修改備註。'; status.className = 'form-status error'; return; }
+  if (/星宇/.test(data.remarks || '')) { status.textContent = '10/18 起新購買的專案暫停加購星宇，許願航班也無法指定星宇航空，請修改備註。'; status.className = 'form-status error'; return; }
   if ((type === 'hotel' || type === 'package') && rooms.some(([label, , nt]) => label !== '加床' && !nt)) { status.textContent = '請選擇每種房型的住宿晚數。'; status.className = 'form-status error'; return; }
   // 欄位對應（不新增 Sheet 欄位）：
   //   預定張數 = 機票張數／飯店間數／機加酒的機票張數
